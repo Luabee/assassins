@@ -1,0 +1,12 @@
+"assassins"
+{
+	"base"		"base"
+	"title"		"Assassins"
+	"maps"		"^ass_"
+	"menusystem"	"1"
+
+	"settings"
+	{
+		// TODO: put some settings here
+	}
+}
