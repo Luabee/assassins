@@ -78,6 +78,12 @@ if SERVER then
 		end
 	end
 	
+	concommand.Add("ass_progressround",function(p,c,a)
+		if a:IsSuperAdmin() then
+			ProgressRound()
+		end
+	end)
+	
 else
 	function ProgressRound() end
 end
