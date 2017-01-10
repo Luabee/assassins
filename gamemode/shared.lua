@@ -118,6 +118,18 @@ function GM:PlayerDefinition(ply)
 	ply:SetJumpPower(195)
 end
 
+function player.GetScoreSorted(t)
+	local tbl
+	if t then
+		tbl = team.GetPlayers(t)
+	else
+		tbl = player.GetAll()
+	end
+	table.sort(tbl,function(a,b)
+		return a:GetScore() > b:GetScore()
+	end)
+	return tbl
+end
 
 -- hook.Add("EntityEmitSound","ass_nofallsound",function(data)
 	-- if data.OriginalSoundName == "Player.FallDamage" then
@@ -175,7 +187,7 @@ function Assassinate(ent,attacker,deathseq,attseq)
 		chase.Finish(attacker,ent)
 		
 		if SERVER then
-			ent:SetEyeAngles((attacker:GetPos()-(ent:GetPos()+Vector(0,0,32))):Angle())
+			-- ent:SetEyeAngles((attacker:GetPos()-(ent:GetPos()+Vector(0,0,32))):Angle())
 			ent:Freeze(true)
 		end
 		
@@ -231,7 +243,7 @@ function Assassinate(ent,attacker,deathseq,attseq)
 		attacker:AnimRestartMainSequence()
 		
 		if SERVER then
-			attacker:SetEyeAngles((ent:GetPos()-(attacker:GetPos()+Vector(0,0,32))):Angle())
+			-- attacker:SetEyeAngles((ent:GetPos()-(attacker:GetPos()+Vector(0,0,32))):Angle())
 		end
 		
 		attacker:EmitSound("weapons/knife/knife_deploy1.wav")
@@ -328,7 +340,7 @@ function Stun(ent,attacker)
 		
 		ent:SetSequence(ent.DeathSeq)
 		ent:AnimRestartMainSequence()
-		ent:SetEyeAngles((attacker:GetPos()-(ent:GetPos()+Vector(0,0,32))):Angle())
+		-- ent:SetEyeAngles((attacker:GetPos()-(ent:GetPos()+Vector(0,0,32))):Angle())
 		
 		ent:Freeze(true)
 		ent:SetNW2Bool("ass_stunned",true)
@@ -360,7 +372,7 @@ function Stun(ent,attacker)
 		attacker:SetSequence(attacker.AttackSeq)
 		attacker:SetPlaybackRate(2)
 		attacker:AnimRestartMainSequence()
-		attacker:SetEyeAngles((ent:GetPos()-(attacker:GetPos()+Vector(0,0,32))):Angle())
+		-- attacker:SetEyeAngles((ent:GetPos()-(attacker:GetPos()+Vector(0,0,32))):Angle())
 		
 		timer.Simple(attacker:SequenceDuration()*.8-.2,function()
 			if IsValid(attacker) then

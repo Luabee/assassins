@@ -166,11 +166,12 @@ function GM:RoundStateChanged(state, round)
 			hud.FadeOut(4)
 			SetIntensity(0)
 			music.SetLoop(music.PostSound, 0)
+			ShowScores()
 		else
 			local scores = player.GetScoreSorted()
-			PrintMessage(HUD_PRINTTALK,"1st place: "..scores[1]:Nick())
-			PrintMessage(HUD_PRINTTALK,"2nd place: "..scores[2]:Nick())
-			PrintMessage(HUD_PRINTTALK,"3nd place: "..scores[3]:Nick())
+			PrintMessage(HUD_PRINTCONSOLE,"1st place: "..scores[1]:Nick())
+			PrintMessage(HUD_PRINTCONSOLE,"2nd place: "..scores[2]:Nick())
+			PrintMessage(HUD_PRINTCONSOLE,"3nd place: "..scores[3]:Nick())
 			CleanupEverything()
 		end
 		

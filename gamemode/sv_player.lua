@@ -413,18 +413,7 @@ function GM:PlayerInitialSpawn(ply)
 	end
 end
 
-function player.GetScoreSorted(t)
-	local tbl
-	if t then
-		tbl = team.GetPlayers(t)
-	else
-		tbl = player.GetAll()
-	end
-	table.sort(tbl,function(a,b)
-		return a:GetScore() > b:GetScore()
-	end)
-	return tbl
-end
+
 
 function SpawnAllPlayers()
 

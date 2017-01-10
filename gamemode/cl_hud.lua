@@ -13,7 +13,7 @@ function GM:ASSActionKeyHover(ent)
 				return true, "Assassinate", ent:GetPos() + ent:OBBCenter()
 			else --if ent:GetTarget() == LocalPlayer() then
 				if !ent:GetNW2Bool("ass_stunned",false) then
-					return true, "Stun", ent:GetPos() + ent:OBBCenter()
+					return true, "Assassinate", ent:GetPos() + ent:OBBCenter()
 				end
 			end
 		end

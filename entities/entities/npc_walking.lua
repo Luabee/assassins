@@ -297,7 +297,7 @@ function ENT:ActionKeyHover()
 		if LocalPlayer():GetTargetEnt() == self then
 			return true, "Assassinate", self:GetPos() + self:OBBCenter()
 		elseif not ply.DeathSeq then --if ply:GetTarget() == LocalPlayer() then
-			return true, "Stun", self:GetPos() + self:OBBCenter()
+			return true, "Assassinate", self:GetPos() + self:OBBCenter()
 		-- else
 			-- return false
 		end

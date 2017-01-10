@@ -17,6 +17,10 @@ if (SERVER) then
 	resource.AddFile( "sound/assassins/music/suspenseloop.wav" )
 	resource.AddFile( "sound/assassins/music/suspensetoguitar.wav" )
 	
+	resource.AddFile( "sound/assassins/music/pff1.mp3" )
+	resource.AddFile( "sound/assassins/music/pff2.mp3" )
+	resource.AddFile( "sound/assassins/music/pff3.mp3" )
+	
 	resource.AddFile( "models/player/assassins/animationbase.mdl" )
 	
 	resource.AddFile( "materials/assassins/smallcircleload.vmt" )

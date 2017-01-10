@@ -1,0 +1,6 @@
+{
+"title" : "Assassins",
+"type" : "gamemode",
+"tags" : "fun",
+"ignore" : ["*.psd", "*.vcproj", "*.svn*"]
+}
