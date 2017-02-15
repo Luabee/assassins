@@ -6,6 +6,7 @@ include("sh_autopilot.lua")
 include("sh_thirdperson.lua")
 include("sh_grapple_hook.lua")
 include("sh_animmodel.lua")
+include("sh_equipment.lua")
 
 include("cl_music.lua")
 include("cl_stencil.lua")
@@ -13,6 +14,8 @@ include("cl_halos.lua")
 include("cl_gui.lua")
 include("cl_fireworks.lua")
 include("cl_hud.lua")
+
+include("sh_equip_disguiser.lua")
 
 // Clientside only stuff goes here
 

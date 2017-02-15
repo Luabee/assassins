@@ -399,8 +399,33 @@ function hud.KillPoints(scoretbl)
 	
 end
 
+// Equipment
+hud.equipment = hud.equipment or {}
+function hud.AddEquipment(id,cooldown,key,iconPath)
+	if IsValid(hud.equipment[id]) then hud.equipment[id]:Remove() end
+	
+	key = tonumber(key)
+	local p = vgui.Create("ass_Equipment")
+	hud.equipment[id] = p
+	p:ParentToHUD()
+	p:AlignLeft(100 + key*p:GetWide() + key*10)
+	p:AlignBottom(100)
+	p.img:SetMaterial(Material(iconPath,"unlitgeneric smooth"))
+	p:SetKey(key)
+	p:SetCD(cooldown)
+	
+	
+end
 
---Fade In/Out
+function hud.StartEquipmentCD(id, nextUse)
+	local p = hud.equipment[id]
+	if IsValid(p) then
+		p:StartCD(nextUse)
+	end
+end
+
+
+// Fade In/Out
 if not hud.BlackScreen then
 	hud.BlackScreen = vgui.Create("Panel")
 	-- hud.BlackScreen:ParentToHUD()
