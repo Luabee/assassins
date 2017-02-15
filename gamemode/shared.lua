@@ -45,6 +45,10 @@ ConVars = {}
 	
 	ConVars.Server.chaseSpeed = CreateConVar("ass_chase_loserate", 8, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "How many seconds it takes for a chase to end while the victim is out of sight or blended. ")
 	
+	ConVars.Server.disguiser = CreateConVar("ass_equipment_disguiser", 1, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "Whether to allow players to use the disguiser equipment.")
+	ConVars.Server.disguiserTime = CreateConVar("ass_equipment_disguiser_time", 8, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "How long the disguiser lasts.")
+	ConVars.Server.disguiserCD = CreateConVar("ass_equipment_disguiser_cooldown", 45, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "How long the disguiser's cooldown is.")
+	
 if CLIENT then
 	ConVars.Client = {}
 	ConVars.Client.autoCrouch = CreateClientConVar("ass_auto_crouch", 1, true, true, "Whether to automatically crouch while jumping and sprinting.")

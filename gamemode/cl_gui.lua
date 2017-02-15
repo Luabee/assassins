@@ -19,12 +19,16 @@ end
 local keycol = Color(52,84,115)
 local keycol_trans = Color(52,84,115,150)
 
+//Key material
+local keymat = Material("assassins/key.png","smooth unlitgeneric")
+local keymat_small = Material("assassins/key_small.png","smooth unlitgeneric")
+
 //Draw functions
 -- Draws an arc on your screen.
 -- startang and endang are in degrees, 
 -- radius is the total radius of the outside edge to the center.
 -- cx, cy are the x,y coordinates of the center of the arc.
--- roughness determines how many triangles are drawn. Number between 1-360; 2 or 3 is a good number.
+-- roughness determines how few triangles are drawn. Number between 1-360; 2 or 3 is a good number.
 function draw.Arc(cx,cy,radius,thickness,startang,endang,roughness,color)
 	surface.SetDrawColor(color)
 	surface.DrawArc(surface.PrecacheArc(cx,cy,radius,thickness,startang,endang,roughness))
@@ -104,8 +108,6 @@ end
 
 //Action Key for +use
 local PANEL = {}
-
-local keymat = Material("assassins/key.png","noclamp smooth unlitgeneric")
 
 AccessorFunc(PANEL,"Text","Text",FORCE_STRING)
 AccessorFunc(PANEL,"Vector","Vector")
@@ -321,14 +323,24 @@ function PANEL:Init()
 	
 	
 end
+function PANEL:SetTarget(new)
+	self.Target = new
+	
+	timer.Simple(1, function()
+		if !IsValid(self) then return end
+		if !IsValid(self.Mdl) then return end
+		if !IsValid(new) then return end
+		self.Mdl:SetModel(new:GetModel())
+	end)
+end
 function PANEL:Think()
 	local num = ConVars.Server.maxPursuers:GetInt()
 	if IsValid(self.Target) and self.Target:Alive() then
 		self.Mdl:SetVisible(true)
 		self.Searching:SetVisible(false)
-		if self.Mdl:GetModel() != self.Target:GetModel() then
-			self.Mdl:SetModel(self.Target:GetModel())
-		end
+		-- if self.Mdl:GetModel() != self.Target:GetModel() then
+			-- self.Mdl:SetModel(self.Target:GetModel())
+		-- end
 		
 		local i=1
 		for k,o in pairs(player.GetAll())do
@@ -770,3 +782,71 @@ hook.Add("InitPostEntity","ass_tutorial",function() //Show firsttimers the tutor
 		end
 	end)
 end)
+
+local PANEL = {}
+local hex = Material("assassins/hexagon.png","unlitgeneric smooth")
+local hexalpha = Material("assassins/hexagon.png","unlitgeneric smooth alphatest")
+AccessorFunc(PANEL,"Key","Key",FORCE_STRING)
+AccessorFunc(PANEL,"CD","CD",FORCE_NUMBER)
+function PANEL:Init()
+	
+	self:SetSize(56,56)
+	self:DockPadding(10,10,10,10)
+	self.nextUse = CurTime()
+	
+	local img = vgui.Create("DImage",self)
+	self.img = img
+	img:Dock(FILL)
+	
+	self:SetMaterial(hex)
+	
+end
+function PANEL:PaintOver(w,h)
+	
+	//Paint cooldown
+	local timeUntil = self.nextUse - CurTime()
+	if timeUntil > 0 then
+		
+		stencil.Enable(true)
+			stencil.Clear()
+			stencil.Reference(1)
+			stencil.Mask(255)
+			stencil.Compare(STENCIL_NEVER)
+			stencil.SetOperations(STENCIL_KEEP,STENCIL_REPLACE,STENCIL_REPLACE)
+			
+			surface.SetMaterial(hexalpha)
+			surface.DrawTexturedRect(0,0,w,h)
+			
+			stencil.Compare(STENCIL_EQUAL)
+			stencil.SetOperations(STENCIL_INCR,STENCIL_KEEP,STENCIL_KEEP)
+			
+			draw.NoTexture()
+			draw.Arc(w/2,h/2,w/2,w/2,90,360*timeUntil/self:GetCD()+90,3,color_black)
+			-- surface.DrawRect(0,h-h*timeUntil/self:GetCD(),w,h*timeUntil/self:GetCD())
+			
+			stencil.Compare(STENCIL_NOTEQUAL)
+			local t = math.Round(timeUntil)
+			draw.SimpleText(t, "bobbleTitle26", w/2, h/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			
+			stencil.Compare(STENCIL_EQUAL)
+			draw.SimpleText(t, "bobbleTitle26", w/2, h/2, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		
+		stencil.Enable(false)
+		
+		
+	end
+	
+	
+	//Paint key
+	surface.SetDrawColor(color_white)
+	surface.SetMaterial(keymat_small)
+	local s = 24
+	surface.DrawTexturedRect(w-s,h-s,s,s)
+	draw.SimpleText(input.LookupBinding("slot"..(self:GetKey() or "")), "bobbleTitle16", w-s/2-1, h-s/2-1, keycol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	
+end
+function PANEL:StartCD(nextUse)
+	self.nextUse = nextUse or (self:GetCD() + CurTime()) 
+end
+
+vgui.Register("ass_Equipment",PANEL,"DImage")
